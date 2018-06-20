@@ -1,0 +1,6 @@
+.idea/
+target/
+config.yml
+data.json
+*.iml
+*.swp
