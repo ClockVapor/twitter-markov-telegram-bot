@@ -8,10 +8,12 @@ import twitter4j.conf.ConfigurationBuilder
 object TwitterScraper {
     private const val SLEEP_MS: Long = 1_800_000 // 30 minutes
 
-    fun run(username: String, consumerKey: String, consumerSecret: String, accessToken: String, accessSecret: String) {
+    fun run(username: String, consumerKey: String, consumerSecret: String, accessToken: String, accessSecret: String,
+            dataPath: String) {
+
         while (true) {
             try {
-                scrape(username, consumerKey, consumerSecret, accessToken, accessSecret)
+                scrape(username, consumerKey, consumerSecret, accessToken, accessSecret, dataPath)
                 Thread.sleep(SLEEP_MS)
             } catch (e: Exception) {
                 Utils.log(e)
@@ -20,12 +22,12 @@ object TwitterScraper {
     }
 
     private fun scrape(username: String, consumerKey: String, consumerSecret: String, accessToken: String,
-                       accessSecret: String) {
+                       accessSecret: String, dataPath: String) {
 
         Utils.log("Scraping tweets...")
         val twitter = buildTwitter(consumerKey, consumerSecret, accessToken, accessSecret)
         val markovChain = try {
-            MarkovChain.read()
+            MarkovChain.read(dataPath)
         } catch (e: Exception) {
             Utils.log(e)
             MarkovChain()
@@ -36,7 +38,7 @@ object TwitterScraper {
             status.displayTextRangeStart
             markovChain.add(status)
         }
-        markovChain.write()
+        markovChain.write(dataPath)
         Utils.log("Done scraping tweets")
     }
 

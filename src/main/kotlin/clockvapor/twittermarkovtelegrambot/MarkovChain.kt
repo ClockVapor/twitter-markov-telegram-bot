@@ -62,23 +62,22 @@ class MarkovChain private constructor(val tweetIds: MutableSet<Long>,
         return tweet.text
     }
 
-    fun write() {
+    fun write(path: String) {
         synchronized(this) {
-            ObjectMapper().writeValue(File(DATA_PATH), this)
+            ObjectMapper().writeValue(File(path), this)
         }
     }
 
     companion object {
-        private const val DATA_PATH = "data.json"
         private const val EMPTY = ""
         private val random = Random()
         private val whitespaceRegex = Regex("\\s+")
 
         @Suppress("UNCHECKED_CAST")
-        fun read(): MarkovChain {
+        fun read(path: String): MarkovChain {
             val data = synchronized(this) {
                 val mapper = ObjectMapper()
-                mapper.readValue<MutableMap<*, *>>(File(DATA_PATH), MutableMap::class.java)
+                mapper.readValue<MutableMap<*, *>>(File(path), MutableMap::class.java)
             }
             val tweetIds = data["tweetIds"] as? MutableList<Long> ?: throw Exception(
                 "Data json file is missing \"tweetIds\".")
