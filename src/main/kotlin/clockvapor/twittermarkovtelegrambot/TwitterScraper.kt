@@ -1,5 +1,6 @@
 package clockvapor.twittermarkovtelegrambot
 
+import twitter4j.Paging
 import twitter4j.Twitter
 import twitter4j.TwitterFactory
 import twitter4j.conf.ConfigurationBuilder
@@ -29,7 +30,9 @@ object TwitterScraper {
             Utils.log(e)
             MarkovChain()
         }
-        for (status in twitter.getUserTimeline(username).filterNot { it.isRetweet || it.isTruncated }) {
+        val tweets = twitter.getUserTimeline(username, Paging(1, 3200)).filterNot { it.isRetweet || it.isTruncated }
+        Utils.log("Fetched ${tweets.size} most recent tweets")
+        for (status in tweets) {
             status.displayTextRangeStart
             markovChain.add(status)
         }

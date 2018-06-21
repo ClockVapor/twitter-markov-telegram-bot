@@ -24,7 +24,7 @@ class MarkovChain private constructor(val tweetIds: MutableSet<Long>,
 
     fun add(tweet: Status) {
         if (tweetIds.add(tweet.id)) {
-            val text = scrubTweetText(tweet.text)
+            val text = scrubTweetText(tweet)
             Utils.log("Got new tweet: $text")
             addWords(tweet.text.split(whitespaceRegex))
         }
@@ -57,9 +57,9 @@ class MarkovChain private constructor(val tweetIds: MutableSet<Long>,
         return null
     }
 
-    private fun scrubTweetText(text: String): String {
-        // TODO: remove t.co link at end of tweet
-        return text
+    private fun scrubTweetText(tweet: Status): String {
+        // TODO: remove links?
+        return tweet.text
     }
 
     fun write() {
