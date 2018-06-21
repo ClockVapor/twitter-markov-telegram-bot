@@ -45,8 +45,7 @@ class MarkovChain private constructor(val tweetIds: MutableSet<Long>,
     }
 
     private fun getWeightedRandomWord(word: String): String? = data[word]?.let { wordMap ->
-        val totalCount = wordMap.values.sum()
-        val x = random.nextInt(totalCount)
+        val x = random.nextInt(wordMap.values.sum())
         var current = 0
         for ((w, count) in wordMap) {
             current += count

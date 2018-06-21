@@ -34,9 +34,8 @@ object TwitterScraper {
         }
         val tweets = twitter.getUserTimeline(username, Paging(1, 3200)).filterNot { it.isRetweet || it.isTruncated }
         Utils.log("Fetched ${tweets.size} most recent tweets")
-        for (status in tweets) {
-            status.displayTextRangeStart
-            markovChain.add(status)
+        for (tweet in tweets) {
+            markovChain.add(tweet)
         }
         markovChain.write(dataPath)
         Utils.log("Done scraping tweets")
