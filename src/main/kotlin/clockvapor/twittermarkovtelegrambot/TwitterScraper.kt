@@ -27,17 +27,21 @@ object TwitterScraper {
         Utils.log("Scraping tweets...")
         val twitter = buildTwitter(consumerKey, consumerSecret, accessToken, accessSecret)
         val markovChain = try {
-            MarkovChain.read(dataPath)
+            synchronized(TweetMarkovChain) {
+                TweetMarkovChain.read(dataPath)
+            }
         } catch (e: Exception) {
             Utils.log(e)
-            MarkovChain()
+            TweetMarkovChain()
         }
         val tweets = twitter.getUserTimeline(username, Paging(1, 3200)).filterNot { it.isRetweet || it.isTruncated }
         Utils.log("Fetched ${tweets.size} most recent tweets")
         for (tweet in tweets) {
             markovChain.add(tweet)
         }
-        markovChain.write(dataPath)
+        synchronized(TweetMarkovChain) {
+            markovChain.write(dataPath)
+        }
         Utils.log("Done scraping tweets")
     }
 

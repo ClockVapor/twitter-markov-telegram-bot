@@ -27,5 +27,5 @@ object TelegramBot {
         bot.startPolling()
     }
 
-    private fun generateTweet(dataPath: String) = MarkovChain.read(dataPath).generate().joinToString(" ")
+    private fun generateTweet(dataPath: String) = TweetMarkovChain.read(dataPath).generate().joinToString(" ")
 }

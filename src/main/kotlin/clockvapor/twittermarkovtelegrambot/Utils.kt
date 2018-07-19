@@ -11,5 +11,6 @@ object Utils {
 
     fun log(t: Throwable) {
         log(t.localizedMessage)
+        t.printStackTrace()
     }
 }
