@@ -14,13 +14,11 @@ class TweetMarkovChain(val tweetIds: MutableSet<Long> = mutableSetOf(),
     fun add(tweet: Status) {
         if (tweetIds.add(tweet.id)) {
             Utils.log("Got new tweet: ${tweet.text}")
-            add(tweet.text.split(whitespaceRegex))
+            add(tweet.text.split(Main.whitespaceRegex))
         }
     }
 
     companion object {
-        private val whitespaceRegex = Regex("\\s+")
-
         @Suppress("UNCHECKED_CAST")
         fun read(path: String): TweetMarkovChain =
             ObjectMapper().readValue<TweetMarkovChain>(File(path), TweetMarkovChain::class.java)

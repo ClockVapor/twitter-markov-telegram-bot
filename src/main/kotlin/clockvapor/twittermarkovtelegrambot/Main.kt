@@ -5,8 +5,10 @@ import com.xenomachina.argparser.mainBody
 import kotlin.concurrent.thread
 
 object Main {
+    val whitespaceRegex = Regex("\\s+")
+
     @JvmStatic
-    fun main(args: Array<String>) = mainBody {
+    fun main(args: Array<String>): Unit = mainBody {
         val a = ArgParser(args).parseInto(::Args)
         val config = Config.read(a.configPath)
         thread { TelegramBot.run(config.telegramBotToken, a.dataPath) }
@@ -14,7 +16,6 @@ object Main {
             TwitterScraper.run(config.twitterUsername, config.twitterConsumerKey, config.twitterConsumerSecret,
                 config.twitterAccessToken, config.twitterAccessSecret, a.dataPath)
         }
-        Unit
     }
 
     class Args(parser: ArgParser) {
