@@ -19,12 +19,13 @@ class TwitterScraper(private val dataPath: String,
         log("Scraping tweets...")
         val twitter = buildTwitter(consumerKey, consumerSecret, accessToken, accessSecret)
         val markovChain =
-            tryOrNull(reportException = false) { Main.readMarkov(dataPath, username) } ?: TweetMarkovChain()
+            tryOrNull(reportException = false) { TwitterMarkovTelegramBot.readMarkov(dataPath, username) }
+                ?: TweetMarkovChain()
         val tweets = twitter.getUserTimeline(username, Paging(1, fetchAmount))
             .filterNot { it.isRetweet || it.isTruncated }
         log("Fetched ${tweets.size} most recent tweets")
         tweets.forEach(markovChain::add)
-        Main.writeMarkov(dataPath, username, markovChain)
+        TwitterMarkovTelegramBot.writeMarkov(dataPath, username, markovChain)
         log("Done scraping tweets")
     }
 

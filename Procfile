@@ -1,0 +1,1 @@
+worker: java -jar build/libs/twitter-markov-telegram-bot-0.0.0.jar -d "data" -t "$TELEGRAM_BOT_TOKEN" -k "$TWITTER_CONSUMER_KEY" -s "$TWITTER_CONSUMER_SECRET" -a "$TWITTER_ACCESS_TOKEN" -b "$TWITTER_ACCESS_SECRET" -f "$FETCH_AMOUNT" -g "$FETCH_INTERVAL"
