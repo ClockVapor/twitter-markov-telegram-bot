@@ -125,7 +125,6 @@ class TwitterMarkovTelegramBot(private val token: String,
     }
 
     class Args(parser: ArgParser) {
-        val configPath by parser.storing("-c", "--config", help = "Path to config YAML file")
         val telegramBotToken: String by parser.storing("-t", help = "Telegram bot token")
         val twitterConsumerKey: String by parser.storing("-k", help = "Twitter consumer key")
         val twitterConsumerSecret: String by parser.storing("-s", help = "Twitter consumer secret")
