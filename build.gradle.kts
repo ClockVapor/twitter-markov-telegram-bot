@@ -17,7 +17,7 @@ dependencies {
     compile(kotlin("stdlib-jdk8"))
     compile("com.github.clockvapor", "markov", "0.0.0")
     compile("com.github.clockvapor", "telegram-utils", "0.0.1")
-    compile("org.twitter4j", "twitter4j-core", "[4.0,)")
+    compile("org.twitter4j", "twitter4j-core", "4.0.7")
     compile("com.xenomachina", "kotlin-argparser", "2.0.7")
     compile("io.github.seik", "kotlin-telegram-bot", "0.3.5") {
         exclude("io.github.seik.kotlin-telegram-bot", "echo")
